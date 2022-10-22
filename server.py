@@ -1,8 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 from language_detector.model import Model
-
-from pydantic import BaseModel
 
 
 class DetectInputModel(BaseModel):
@@ -43,4 +42,8 @@ def get_supported_languages():
 
 @app.post("/lang_id/")
 def detect_language(input: DetectInputModel):
-    return model.detect(input.text)
+    result = model.detect(input.text)
+    if 'error' in result:
+        raise HTTPException(status_code=400, 
+        detail=result['error'])
+    return result
