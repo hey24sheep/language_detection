@@ -1,0 +1,1 @@
+pip install torch fastapi uvicorn[standard] gunicorn transformers[torch] requests pytest
