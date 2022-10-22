@@ -9,22 +9,38 @@ class DetectInputModel(BaseModel):
     text: str
 
 
-app = FastAPI()
+app = FastAPI(
+    title="Language Detection",
+    description=
+    "Opening a simple rest API endpoint to detect language from the given text",
+    version="1.0.0",
+    contact={
+        "name": "Heyramb Narayan Goyal",
+        "url": "https://hey24sheep.com",
+        "email": "hey24sheep@gmail.com",
+    },
+    license_info={
+        "name":
+        "MIT",
+        "url":
+        "https://raw.githubusercontent.com/hey24sheep/language_detection/main/LICENSE",
+    },
+)
 
 model = Model()
 
 
 @app.get("/")
-def read_root():
+def health():
     return {"status": "working", "ver": "v1"}
 
 
 @app.get("/langs")
-def read_root():
+def get_supported_languages():
     langs = model.supported_languages()
     return {"languages": langs, "count": f"{len(langs.keys())}"}
 
 
 @app.post("/lang_id/")
-def read_item(input: DetectInputModel):
+def detect_language(input: DetectInputModel):
     return model.detect(input.text)
