@@ -398,9 +398,9 @@ FodyWeavers.xsd
 *.sln.iml
 
 # custom
-.language_detector/model/*
 .env
 .vscode
 .pytest_cache
-.language_detector/__pycache__/
+language_detector/model/*
+language_detector/__pycache__/
 __pycache__/
