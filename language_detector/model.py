@@ -41,8 +41,10 @@ class Model:
     pipeline = None
 
     def __init__(self):
-        self.download_model()
+        pass
 
+    def init_pipeline(self):
+        self.download_model()
         if self.pipeline is None:
             print('creating pipeline')
             self.pipeline = TextClassificationPipeline(
@@ -73,6 +75,8 @@ class Model:
 
     def detect(self, text: str):
         """Detect language IDs of given texts."""
+
+        self.init_pipeline()
 
         text = self.clean_text(text)
 
