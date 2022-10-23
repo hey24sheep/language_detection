@@ -1,7 +1,6 @@
-import asyncio
-
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from starlette.concurrency import run_in_threadpool
 
 from language_detector.model import Model
 
@@ -28,7 +27,9 @@ app = FastAPI(
     },
 )
 
+
 model = Model()
+
 
 @app.get("/")
 def health():
@@ -38,7 +39,7 @@ def health():
 @app.get("/langs")
 def get_supported_languages():
     langs = model.supported_languages()
-    return {"languages": langs, "count": f"{len(langs.keys())}"}
+    return {"languages": langs, "count": f"{len(langs)}"}
 
 
 @app.post("/lang_id/")

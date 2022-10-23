@@ -1,1 +1,5 @@
+# to install hugging face RoBERTA
 pip install torch fastapi uvicorn[standard] gunicorn transformers[torch] requests pytest
+
+# to install lang-detect
+pip install fastapi uvicorn[standard] gunicorn requests pytest iso-639 langdetect

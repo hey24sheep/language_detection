@@ -25,16 +25,15 @@ def test_post_lang_id_french():
         },
     )
     assert response.status_code == 200
-    assert response.json() == {'French': '0.99'}
-
+    assert response.json() == {'French': '1.00'}
 
 
 def test_post_lang_id_chinese():
     response = client.post(
         "/lang_id/",
         json={
-            "text": "以前从去评价不知道浪费了多少积分what a world",
+            "text": "什么是生命的意义",
         },
     )
     assert response.status_code == 200
-    assert response.json() == {'Chinese': '0.99'}
+    assert response.json() == {'Chinese': '1.00'}

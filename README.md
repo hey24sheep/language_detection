@@ -1,10 +1,10 @@
 # Language Detection
-Language detection using 'Roberta' from HuggingFace with FastAPI as the backend. 
+Language detection using  [langdetect](https://github.com/Mimino666/langdetect) and FastAPI as the backend. 
 
 # Setup
 - Install all dependencies, run `pip install -r requirements.txt` or `install.sh` 
   - OR, 
-    - Create `python -m venv .env` virtual env
+    - Create `python -m venv .env` virtual env (in case you already have an 'env', make sure to delete it)
     - run `activate_env_linux.sh`(if using linux) or `activate_env_windows.bat`
     - then install all the dependencies
 - Run `run_server.sh` to consume/test rest endpoints
@@ -36,45 +36,25 @@ API Specification
 - Autogenerates `OpenAPI` based spec file
   - Can be checked at `/openapi.json`
 
-# Model
-## Why use a pre-trained model?
-Never reinvent the wheel, also save resources. Second, I do not own a workstation to train a model as big as 'xlm roBERTa'.
+# Detection / Identification
 
-## GPU Support
-No, as the project is a small demo and will be hosted on free resources
+## Detection & Supported Languages
+I am using this awesome library [langdetect](https://github.com/Mimino666/langdetect). It is a port of original library of the same name by Google.
 
-## Model & Supported Languages
-Model is [xlm-roberta-base-language-detection](https://huggingface.co/papluca/xlm-roberta-base-language-detection`) model from HuggingFace. Which is a fine tuned version of [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) trained on [Language ID Dataset](https://huggingface.co/datasets/papluca/language-identification#additional-information).
-
-As of now used model supports the following 20 languages.
+As of now used the library supports the following **55** languages.
 
 ```
-{
-  "languages": {
-    "ar": "Arabic",
-    "bg": "Bulgarian",
-    "de": "German",
-    "re": "Modern",
-    "en": "English",
-    "es": "Spanish",
-    "fr": "French",
-    "hi": "Hindi",
-    "it": "Italian",
-    "ja": "Japanese",
-    "nl": "Dutch",
-    "pl": "Polish",
-    "pt": "Portuguese",
-    "ru": "Russian",
-    "sw": "Swahili",
-    "th": "Thai",
-    "tr": "Turkish",
-    "ur": "Urdu",
-    "vi": "Vietnamese",
-    "zh": "Chinese"
-  },
-  "count": "20"
-}
+'Afrikaans', 'Arabic', 'Bulgarian', 'Bengali', 'Catalan', 'Czech', 'Welsh', 'Danish', 'German', 'Modern Greek (1453-)', 'English', 'Spanish', 'Estonian', 'Persian', 'Finnish', 'French', 'Gujarati', 'Hebrew', 'Hindi', 'Croatian', 'Hungarian', 'Indonesian', 'Italian', 'Japanese', 'Kannada', 'Korean', 'Lithuanian', 'Latvian', 'Macedonian', 'Malayalam', 'Marathi', 'Nepali (macrolanguage)', 'Dutch', 'Norwegian', 'Panjabi', 'Polish', 'Portuguese', 'Romanian', 'Russian', 'Slovak', 'Slovenian', 'Somali', 'Albanian', 'Swedish', 'Swahili (macrolanguage)', 'Tamil', 'Telugu', 'Thai', 'Tagalog', 'Turkish', 'Ukrainian', 'Urdu', 'Vietnamese', 'Chinese', 'Taiwanese Mandarin'
 ```
+
+## How the library works?
+You can read this presentation by [Google from 2010](https://www.slideshare.net/shuyo/language-detection-library-for-java)
+
+## Can we use something newer?
+Yes, we can use [xlm-roberta-base-language-detection](https://huggingface.co/papluca/xlm-roberta-base-language-detection`) model from HuggingFace. Which is a fine tuned version of [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) trained on [Language ID Dataset](https://huggingface.co/datasets/papluca/language-identification#additional-information).
+
+## Why haven't I used it?
+Well, first it's a big +1.5GB model. Second, it only supports 20 languages.
 
 # Flow
 

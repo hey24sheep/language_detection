@@ -3,77 +3,42 @@
 
 import os
 import re
+from langdetect import detect_langs
+from iso639 import languages
 
-from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
-                          TextClassificationPipeline)
+from langdetect import DetectorFactory
 
-# from . import MODEL_PATH
-
-MODEL_PATH = "./language_detector/model/roberta_lang_detect"
-
-MODEL_ID = "papluca/xlm-roberta-base-language-detection"
 
 class Model:
+    language_lbl = [
+        "af", "ar", "bg", "bn", "ca", "cs", "cy", "da", "de", "el", "en", "es",
+        "et", "fa", "fi", "fr", "gu", "he", "hi", "hr", "hu", "id", "it", "ja",
+        "kn", "ko", "lt", "lv", "mk", "ml", "mr", "ne", "nl", "no", "pa", "pl",
+        "pt", "ro", "ru", "sk", "sl", "so", "sq", "sv", "sw", "ta", "te", "th",
+        "tl", "tr", "uk", "ur", "vi", "zh-cn", "zh-tw"
+    ]
 
-    language_lbl = dict({
-        'ar': 'Arabic',
-        'bg': 'Bulgarian',
-        'de': 'German',
-        're': 'Modern',
-        'en': 'English',
-        'es': 'Spanish',
-        'fr': 'French',
-        'hi': 'Hindi',
-        'it': 'Italian',
-        'ja': 'Japanese',
-        'nl': 'Dutch',
-        'pl': 'Polish',
-        'pt': 'Portuguese',
-        'ru': 'Russian',
-        'sw': 'Swahili',
-        'th': 'Thai',
-        'tr': 'Turkish',
-        'ur': 'Urdu',
-        'vi': 'Vietnamese',
-        'zh': 'Chinese',
-    })
-
-    pipeline = None
+    lang_keys = []
 
     def __init__(self):
-        self.init_pipeline()
-
+        DetectorFactory.seed = 0
         pass
-
-    def init_pipeline(self):
-        self.download_model()
-        if self.pipeline is None:
-            print('creating pipeline')
-            self.pipeline = TextClassificationPipeline(
-                model=AutoModelForSequenceClassification.from_pretrained(
-                    MODEL_PATH),
-                tokenizer=AutoTokenizer.from_pretrained(MODEL_PATH),
-            )
-
-    def download_model(self):
-        if not os.path.isdir(MODEL_PATH):
-            print("model not found!")
-
-            print(f"downloading model {MODEL_ID}")
-
-            tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-
-            model = AutoModelForSequenceClassification.from_pretrained(MODEL_ID)
-
-            tokenizer.save_pretrained(MODEL_PATH)
-
-            model.save_pretrained(MODEL_PATH)
-
-            print(f"model saved to {MODEL_PATH}")
 
 
     def supported_languages(self):
-        return self.language_lbl
+        if len(self.lang_keys) > 0:
+            return self.lang_keys
+
+        for l in self.language_lbl:
+            if l == "zh-cn":
+                self.lang_keys.append('Chinese')
+            elif l == "zh-tw":
+                self.lang_keys.append('Taiwanese Mandarin')
+            else:
+                self.lang_keys.append(languages.get(alpha2=l).name)
+
+        return self.lang_keys
+
 
     def detect(self, text: str):
         """Detect language IDs of given texts."""
@@ -86,11 +51,16 @@ class Model:
                 'Invalid input, contains symbols, digits or escape characters'
             }
 
-        result = self.pipeline(text)
+        detect_results = detect_langs(text)[0]
 
-        label = self.language_lbl[result[0]['label']]
+        if detect_results.lang == "zh-cn":
+            label = "Chinese"
+        elif detect_results.lang == "zh-tw":
+            label = "Taiwanese Mandarin"
+        else:
+            label = languages.get(alpha2=detect_results.lang).name
 
-        score = "{:.2f}".format(result[0]['score'])
+        score = "{:.2f}".format(detect_results.prob)
 
         return {label: score}
 
@@ -100,9 +70,10 @@ class Model:
         # remove html markup
         text = re.sub("(<.*?>)", "", text)
 
-        #remove non-ascii and digits
-        text = re.sub("(\\W|\\d)", " ", text)
+        # remove non-ascii and digits
+        text = re.sub("(\\W|\\d)", "", text)
 
-        #remove whitespace
+        # remove whitespace
         text = text.strip()
+
         return text
