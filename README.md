@@ -55,7 +55,7 @@ As of now used the library supports the following **55** languages.
 You can read this presentation by [Google from 2010](https://www.slideshare.net/shuyo/language-detection-library-for-java)
 
 ## Can we use something newer?
-Yes, we can use [xlm-roberta-base-language-detection](https://huggingface.co/papluca/xlm-roberta-base-language-detection`) model from HuggingFace. Which is a fine tuned version of [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) trained on [Language ID Dataset](https://huggingface.co/datasets/papluca/language-identification#additional-information).
+Yes, we can use [xlm-roberta-base-language-detection](https://huggingface.co/papluca/xlm-roberta-base-language-detection?text=I+like+you.+I+love+you`) model from HuggingFace. Which is a fine tuned version of [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) trained on [Language ID Dataset](https://huggingface.co/datasets/papluca/language-identification#additional-information).
 
 ## Why haven't I used it?
 I have used it, you can find that project here [GitLab Project](https://gitlab.com/hey24sheep/language_detection). But, it cannot be deployed to free resources due to its huge size.
