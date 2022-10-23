@@ -1,5 +1,9 @@
 # Language Detection
-Language detection using  [langdetect](https://github.com/Mimino666/langdetect) and FastAPI as the backend. 
+Language detection using  [langdetect](https://github.com/Mimino666/langdetect) and FastAPI as the backend. It supports 55 languages. As this is a n-gram based detector.
+
+### **NOTE**
+
+I have also used `RoBERTa` based detection project as well, you can find that project here [GitLab Project](https://gitlab.com/hey24sheep/language_detection). It is a huge project, almost 2GB. Also, it only supports 20 languages. But it is a lot more reliable.
 
 # Setup
 - Install all dependencies, run `pip install -r requirements.txt` or `install.sh` 
@@ -54,7 +58,9 @@ You can read this presentation by [Google from 2010](https://www.slideshare.net/
 Yes, we can use [xlm-roberta-base-language-detection](https://huggingface.co/papluca/xlm-roberta-base-language-detection`) model from HuggingFace. Which is a fine tuned version of [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) trained on [Language ID Dataset](https://huggingface.co/datasets/papluca/language-identification#additional-information).
 
 ## Why haven't I used it?
-Well, first it's a big +1.5GB model. Second, it only supports 20 languages.
+I have used it, you can find that project here [GitLab Project](https://gitlab.com/hey24sheep/language_detection). But, it cannot be deployed to free resources due to its huge size.
+
+It's a big +1.5GB model, even dependecies are huge too. Second, it only supports 20 languages.
 
 # Flow
 
